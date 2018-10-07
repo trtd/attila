@@ -138,6 +138,31 @@ jQuery(function($) {
 	video();
 
 	/* ==========================================================================
+	   Tag cloud
+	   ========================================================================== */
+
+	function tagCloud() {
+		var tags = Array.from($("a.tagcloud"));
+		var counts = tags.map(function(a){return parseInt(a.getAttribute("data-count"))});
+		var smallest = Math.min.apply(null, counts);
+		var largest = Math.max.apply(null, counts);
+		var fontMin = 14;
+		var fontMax = 34;
+		var fontSize = 0;
+		var tagCount = 0;
+		var tag = undefined;
+		for (var i = 0; i < tags.length; i++) {
+			tag = tags[i];
+			tagCount = parseInt(tag.getAttribute("data-count"));
+			fontSize = tagCount == smallest ? fontMin :
+				(tagCount == largest ? fontMax : (tagCount / largest) * (fontMax - fontMin) + fontMin);
+			tag.style.fontSize = String(fontSize) + "pt";
+			tag.style.display = "inline";
+		}
+	}
+	tagCloud();
+
+	/* ==========================================================================
 	   Initialize and load Disqus
 	   ========================================================================== */
 
